@@ -1,53 +1,98 @@
-# Claude Builders Bounty 🤖
+# Changelog Generator Skill
 
-> A community bounty board for Claude Code builders.
+A dependency-free bash script that generates a structured `CHANGELOG.md` from a project's git history, following the Keep a Changelog format.
 
-Building with Claude Code? Have tasks to delegate?
-Want to get paid for contributing to AI projects?
-You're in the right place.
+## Features
 
----
+- **Auto-categorizes commits** by conventional commit type (feat, fix, refactor, perf, etc.)
+- **Tag-aware scoping** — automatically uses the latest git tag as the starting point
+- **Keep a Changelog compliant** — produces standard sections (Added, Fixed, Changed, Removed, Security)
+- **Zero dependencies** — pure bash, works on any Unix-like system
+- **Configurable** — limit commit count, specify custom range, or output to any file
 
-## How it works
+## Quick Start
 
-**To post a bounty**
-1. Open a GitHub issue with a clear description and acceptance criteria
-2. Comment `/opire create $XXX` in the issue to set the reward
-3. Share the link — contributors will find it
+```bash
+# 1. Make the script executable
+chmod +x skills/generate-changelog/generate-changelog.sh
 
-**To claim a bounty**
-1. Browse the open issues below
-2. Comment `/opire try` in the issue you want to work on
-3. Submit a PR — payment is automatic on merge ✅
+# 2. Run from project root
+./skills/generate-changelog/generate-changelog.sh
 
----
+# 3. View the output
+cat CHANGELOG.md
+```
 
-## Active Bounties
+## Usage Examples
 
-| # | Task | Amount | Status |
-|---|------|--------|--------|
-| [#1](../../issues/1) | SKILL: Generate a CHANGELOG from git history | $50 | 🟢 Open |
-| [#2](../../issues/2) | TEMPLATE: CLAUDE.md for a Next.js + SQLite project | $75 | 🟢 Open |
-| [#3](../../issues/3) | HOOK: Block destructive bash commands in Claude Code | $100 | 🟢 Open |
-| [#4](../../issues/4) | AGENT: PR reviewer with structured Markdown output | $150 | 🟢 Open |
-| [#5](../../issues/5) | WORKFLOW: n8n + Claude API — automated weekly dev summary | $200 | 🟢 Open |
+```bash
+# Generate changelog for current project
+./generate-changelog.sh
 
----
+# Generate last 50 commits
+./generate-changelog.sh --limit 50
 
-## Rules
+# Since a specific tag
+./generate-changelog.sh --since v1.2.0
 
-- Tasks must be related to Claude Code or AI tooling
-- Every issue must have clear acceptance criteria before a bounty is activated
-- Payment is handled by [Opire](https://opire.dev) (Stripe)
-- Quality over speed — a solid PR beats a fast one
+# Output to a custom file
+./generate-changelog.sh --output HISTORY.md
+```
 
----
+## Output Format
 
-## Community
+The generated CHANGELOG.md follows this structure:
 
-- 🐦 X: [@ClaudeBounty](https://x.com/ClaudeBounty)
-- 📧 Contact: claudebounty@gmail.com
+```markdown
+# Changelog
 
----
+## [Unreleased]
 
-*Started by the Claude builder community · March 2026 · MIT License*
+### Added
+- New feature description (abc1234)
+- Another feature (def5678)
+
+### Fixed
+- Bug fix description (ghi9012)
+
+### Changed
+- Refactored module (jkl3456)
+```
+
+## Commit Type Mapping
+
+| Prefix | Section |
+|--------|---------|
+| `feat:` | Added |
+| `fix:` | Fixed |
+| `refactor:` | Changed |
+| `perf:` | Changed |
+| `docs:` | Documentation |
+| `chore:` | Maintenance |
+| `test:` | Tests |
+| `style:` | Styling |
+| `ci:` | CI/CD |
+| `build:` | Build system |
+| `revert:` | Reverted |
+| `security:` | Security |
+
+## Testing
+
+Test on a real repository:
+
+```bash
+# Test on this repository itself
+cd /path/to/any/git/repo
+/path/to/generate-changelog.sh --output /tmp/test-changelog.md
+cat /tmp/test-changelog.md
+```
+
+## Requirements
+
+- Bash 4.0+
+- Git installed and accessible in PATH
+- A git repository (initialized with `git init` or cloned)
+
+## License
+
+MIT
