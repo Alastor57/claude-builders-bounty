@@ -2,17 +2,19 @@
 set -euo pipefail
 
 # generate-changelog.sh - Generate structured CHANGELOG.md from git history
-# Usage: ./generate-changelog.sh [--output FILE] [--limit N] [--since TAG]
+# Usage: ./generate-changelog.sh [--output FILE] [--limit N] [--since TAG] [--repo PATH]
 
 OUTPUT="CHANGELOG.md"
 LIMIT=""
 SINCE=""
+REPO=""
 
 while [[ $# -gt 0 ]]; do
     case "$1" in
         --output) OUTPUT="$2"; shift 2 ;;
         --limit) LIMIT="$2"; shift 2 ;;
         --since) SINCE="$2"; shift 2 ;;
+        --repo) REPO="$2"; shift 2 ;;
         *) echo "Unknown option: $1"; exit 1 ;;
     esac
 done
